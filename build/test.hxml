@@ -1,11 +1,16 @@
 -cp src
 -cp test
+-cp modules/haxeheaps-starter/src
+-cp modules/localization-audio-subtitle/src
+-cp modules/localization-base/src
+-cp modules/localization-base/test
+-cp modules/localization-text/src
+-cp modules/localization-text/test
 -cp modules/gd-builder/haxe
 -lib utest
 -lib heaps:git
 -main TestMain
 -js bin/test/test.js
 -D nodejs
--D resourcesPath=res
 -D js-source-map
 -D source-map-content

@@ -9,6 +9,8 @@ typedef MapEntity = {
 	@:optional var h:Int;
 	@:optional var r:Int;
 	@:optional var color:Int;    // 0xRRGGBB — overrides default tint
+	@:optional var impulse:Float; // jump pad/orb strength in px/sec
+	@:optional var dir:Int;      // gravity portal direction: 1 down, -1 up
 	@:optional var label:String; // free-form text rendered above entity
 	@:optional var surface:Bool; // treat this entity as a placement Surface
 	@:optional var stock:Int;    // Dispenser initial stock; presence also marks the entity as a Dispenser

@@ -30,6 +30,12 @@ class InputBindings {
 		controller.bindPad(GameAction.MoveUp,    PadButton.DPAD_UP);
 		controller.bindPad(GameAction.MoveDown,  PadButton.DPAD_DOWN);
 
+		// Dash controls — one-button jump plus instant retry.
+		controller.bindKeyboard(GameAction.Jump, [Key.SPACE, Key.UP, Key.W, Key.MOUSE_LEFT]);
+		controller.bindKeyboard(GameAction.Restart, [Key.R, Key.ENTER, Key.NUMPAD_ENTER]);
+		controller.bindPad(GameAction.Jump, PadButton.A);
+		controller.bindPad(GameAction.Restart, PadButton.START);
+
 		// Debug overlay toggle (F2; also backtick for laptops without F-keys).
 		controller.bindKeyboard(GameAction.ToggleDebug, [Key.F2, Key.QWERTY_TILDE]);
 

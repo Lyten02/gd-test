@@ -23,12 +23,13 @@ class RenderSystem implements ISystem {
 			if (tr == null) continue;
 
 			if (sr.display == null) {
-				sr.display = ShapeFactory.build(sr.kind, sr.color, root);
+				sr.display = ShapeFactory.build(sr.kind, sr.color, root, sr.originX, sr.originY);
 			}
-			sr.display.x = tr.pos.x;
-			sr.display.y = tr.pos.y;
+			sr.display.x = tr.pos.x + sr.originX;
+			sr.display.y = tr.pos.y + sr.originY;
 			sr.display.setScale(1);
-			sr.display.rotation = 0;
+			sr.display.rotation = sr.rotation;
+			sr.display.alpha = sr.alpha;
 		}
 	}
 }

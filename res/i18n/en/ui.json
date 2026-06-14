@@ -24,6 +24,17 @@
     "main": "Rotate your device",
     "sub": "Landscape mode only"
   },
+  "dash": {
+    "title": "NEON DASH",
+    "hint": "SPACE / CLICK — JUMP   R — RESTART",
+    "stats": "ATTEMPT {attempt}   {progress}%   {speed} PX/S",
+    "status": {
+      "running": "SYNC TO THE NEON BEAT",
+      "inverted": "GRAVITY INVERTED",
+      "dead": "CRASH!  PRESS R / ENTER TO RETRY",
+      "finished": "LEVEL COMPLETE!  PRESS R / ENTER TO PLAY AGAIN"
+    }
+  },
   "score": {
     "served": "Served: {n}",
     "failed": "Failed: {n}",

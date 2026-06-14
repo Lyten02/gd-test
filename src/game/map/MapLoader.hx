@@ -27,6 +27,8 @@ class MapLoader {
 				h:       e.h,
 				r:       e.r,
 				color:   e.color,
+				impulse: e.impulse,
+				dir:     e.dir,
 				label:   e.label,
 				surface: e.surface,
 				stock:   e.stock,
