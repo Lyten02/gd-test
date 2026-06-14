@@ -31,6 +31,19 @@ title-view .scene-title {
 	color: #00ff88;
 }
 
+/* Main dash HUD. */
+dash-hud {
+	padding: 12 16;
+	vertical: true;
+	spacing: 0 4;
+	background: #050014aa;
+}
+
+dash-hud .dash-title { color: #00f5ff; }
+dash-hud .dash-stats { color: #ffd166; }
+dash-hud .dash-status { color: #ff4dff; }
+dash-hud .dash-hint { color: #b9f7ff; }
+
 /* Portrait-mode rotation prompt. Caller centers the component on screen. */
 orient-view {
 	vertical: true;

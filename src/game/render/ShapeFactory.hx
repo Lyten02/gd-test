@@ -2,21 +2,23 @@ package game.render;
 
 import game.ecs.components.ShapeRender.ShapeKind;
 import h2d.Graphics;
-import h2d.Bitmap;
 import h2d.Object;
-import h2d.Tile;
 
-/**
- * Builds h2d objects from ShapeKind enum.
- *
- * Convention: every shape is drawn in top-left-origin space, i.e. the shape's
- * bounding box sits at (0, 0) → (w, h). Transform.pos is then the bbox top-left
- * — consistent with Rect, AABB colliders, grid coordinates.
- */
+/** Builds neon h2d objects from ShapeKind while preserving top-left gameplay AABBs. */
 class ShapeFactory {
 	public static inline var OUTLINE_W:Float = 2;
 
-	public static function build(kind:ShapeKind, color:Int, parent:Object):Object {
+	public static function build(kind:ShapeKind, color:Int, parent:Object,
+		originX:Float = 0, originY:Float = 0):Object {
+		if (originX == 0 && originY == 0) return raw(kind, color, parent);
+		var wrap = new Object(parent);
+		var child = raw(kind, color, wrap);
+		child.x = -originX;
+		child.y = -originY;
+		return wrap;
+	}
+
+	static function raw(kind:ShapeKind, color:Int, parent:Object):Object {
 		return switch kind {
 			case Rect(w, h)        : rect(w, h, color, parent);
 			case Circle(r)         : poly(c -> c.drawCircle(r, r, r), color, parent);
@@ -26,14 +28,28 @@ class ShapeFactory {
 		}
 	}
 
-	static inline function rect(w:Float, h:Float, color:Int, parent:Object):Bitmap {
-		return new Bitmap(Tile.fromColor(color, Std.int(w), Std.int(h)), parent);
+	static function rect(w:Float, h:Float, color:Int, parent:Object):Graphics {
+		var g = new Graphics(parent);
+		g.lineStyle(8, color, 0.18);
+		g.drawRect(0, 0, w, h);
+		g.lineStyle(OUTLINE_W, boost(color, 60), 1);
+		g.beginFill(color, 0.92);
+		g.drawRect(0, 0, w, h);
+		g.endFill();
+		g.lineStyle(1, 0xFFFFFF, 0.22);
+		g.moveTo(4, 4);
+		g.lineTo(w - 4, h - 4);
+		g.moveTo(w - 4, 4);
+		g.lineTo(4, h - 4);
+		return g;
 	}
 
-	static inline function poly(draw:(Graphics)->Void, color:Int, parent:Object):Graphics {
+	static function poly(draw:(Graphics)->Void, color:Int, parent:Object):Graphics {
 		var g = new Graphics(parent);
-		g.lineStyle(OUTLINE_W, color);
-		g.beginFill(color);
+		g.lineStyle(8, color, 0.18);
+		draw(g);
+		g.lineStyle(OUTLINE_W, boost(color, 72), 1);
+		g.beginFill(color, 0.92);
 		draw(g);
 		g.endFill();
 		return g;
@@ -55,7 +71,6 @@ class ShapeFactory {
 	}
 
 	static function hexPath(c:Graphics, r:Float):Void {
-		// Bbox (0,0)→(2r, 2r·sin60°·2) — use diameter, center hex inside.
 		var cx = r;
 		var cy = r;
 		for (i in 0...7) {
@@ -64,5 +79,16 @@ class ShapeFactory {
 			var py = cy + Math.sin(a) * r;
 			if (i == 0) c.moveTo(px, py) else c.lineTo(px, py);
 		}
+	}
+
+	static function boost(color:Int, delta:Int):Int {
+		var r = clamp(((color >> 16) & 0xFF) + delta);
+		var g = clamp(((color >> 8) & 0xFF) + delta);
+		var b = clamp((color & 0xFF) + delta);
+		return (r << 16) | (g << 8) | b;
+	}
+
+	static inline function clamp(v:Int):Int {
+		return v < 0 ? 0 : (v > 255 ? 255 : v);
 	}
 }

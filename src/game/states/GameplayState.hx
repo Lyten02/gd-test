@@ -2,14 +2,19 @@ package game.states;
 
 import game.Game;
 import game.ecs.World;
+import game.core.Grid;
 import game.ecs.components.Collider;
+import game.ecs.components.DashRunner;
 import game.ecs.components.PlayerControlled;
 import game.ecs.components.Transform;
 import game.input.GameAction;
 import game.map.EntityFactory;
 import game.map.MapLoader;
 import game.render.Camera;
+import game.render.DashBackdrop;
 import game.render.SceneScaler;
+import game.ui.dash.DashHudPresenter;
+import game.ui.dash.DashHudView;
 #if debug
 import game.ui.debug.DebugPresenter;
 import game.ui.debug.DebugView;
@@ -31,6 +36,9 @@ class GameplayState implements IGameState {
 	var scaler:SceneScaler;
 	var camera:Camera;
 	var sys:GameplaySystems;
+	var attempt:Int;
+	var hudView:DashHudView;
+	var hudPresenter:DashHudPresenter;
 
 	#if debug
 	var debugView:DebugView;
@@ -39,8 +47,9 @@ class GameplayState implements IGameState {
 	var onS2dEvent:hxd.Event->Void;
 	#end
 
-	public function new(game:Game) {
+	public function new(game:Game, attempt:Int = 1) {
 		this.game = game;
+		this.attempt = attempt;
 	}
 
 	public function enter():Void {
@@ -52,11 +61,16 @@ class GameplayState implements IGameState {
 
 		var json = hxd.Res.load(MAP_PATH).toText();
 		var map  = MapLoader.parse(json);
-		EntityFactory.spawnAll(world, map);
+		EntityFactory.spawnAll(world, map, attempt);
+		DashBackdrop.build(worldLayer, Grid.cellToPx(map.width), Grid.cellToPx(map.height));
 
 		sys = new GameplaySystems(game, worldLayer, map, world);
 		camera.worldW = sys.boundsW();
 		camera.worldH = sys.boundsH();
+
+		hudView = new DashHudView(FontRegistry.get(42), FontRegistry.get(22), root);
+		game.style.addObject(hudView);
+		hudPresenter = new DashHudPresenter(hudView, world);
 
 		#if debug
 		var debugFont = FontRegistry.get(18);
@@ -79,6 +93,11 @@ class GameplayState implements IGameState {
 	}
 
 	public function update(dt:Float):Void {
+		if (isRunEnded() && game.input.wasPressed(GameAction.Restart)) {
+			game.switchState(new GameplayState(game, attempt + 1));
+			return;
+		}
+
 		scaler.sync(game.app.s2d.width, game.app.s2d.height);
 		root.setScale(scaler.scale);
 
@@ -101,13 +120,19 @@ class GameplayState implements IGameState {
 			var col = players[0].get(Collider);
 			var cx = tr.pos.x + (col != null ? col.w * 0.5 : 0);
 			var cy = tr.pos.y + (col != null ? col.h * 0.5 : 0);
-			camera.focus(cx, cy, scaler.vW, scaler.vH);
+			camera.focus(cx + 260, cy, scaler.vW, scaler.vH);
 		}
 		worldLayer.setScale(camera.zoom);
 		worldLayer.x = -camera.x * camera.zoom;
 		worldLayer.y = -camera.y * camera.zoom;
 
 		sys.renderAll(world, dt);
+
+		if (hudView != null) {
+			hudView.x = 18;
+			hudView.y = 18;
+			hudPresenter.update(dt);
+		}
 
 		#if debug
 		if (game.input.wasPressed(GameAction.ToggleDebug) && debugView != null) {
@@ -122,6 +147,11 @@ class GameplayState implements IGameState {
 	}
 
 	public function exit():Void {
+		if (hudView != null) {
+			game.style.removeObject(hudView);
+			hudView = null;
+		}
+		if (hudPresenter != null) { hudPresenter.dispose(); hudPresenter = null; }
 		#if debug
 		if (debugView != null) game.style.removeObject(debugView);
 		if (onS2dEvent != null) {
@@ -131,5 +161,13 @@ class GameplayState implements IGameState {
 		#end
 		if (root != null) { root.remove(); root = null; }
 		world = null;
+	}
+
+	function isRunEnded():Bool {
+		if (world == null) return false;
+		var runners = world.query(DashRunner);
+		if (runners.length == 0) return false;
+		var r = runners[0].get(DashRunner);
+		return r.dead || r.finished;
 	}
 }

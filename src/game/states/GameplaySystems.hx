@@ -4,41 +4,45 @@ import game.Game;
 import game.ecs.World;
 import game.map.MapData;
 import game.core.Grid;
-import game.systems.CollisionSystem;
-import game.systems.InputSystem;
+import game.systems.DashControlSystem;
+import game.systems.DashPhysicsSystem;
+import game.systems.DashTrailSystem;
+import game.systems.DashVisualSystem;
 import game.systems.RenderSystem;
 import game.systems.SpriteRenderSystem;
 
-/**
- * Bundles every ECS system for the gameplay scene. Built once in `enter`;
- * `simulate` runs the world sim at scaled dt;
- * `render` draws visual systems at real dt.
- */
+/** Bundles the dash gameplay simulation and render systems. */
 class GameplaySystems {
-	var input:InputSystem;
-	var collision:CollisionSystem;
+	var control:DashControlSystem;
+	var physics:DashPhysicsSystem;
+	var visual:DashVisualSystem;
 	var renderS:RenderSystem;
 	var sprite:SpriteRenderSystem;
+	var trail:DashTrailSystem;
 
 	public function new(game:Game, worldLayer:h2d.Object, map:MapData, world:World) {
-		input     = new InputSystem(game.input);
-		collision = new CollisionSystem();
-		collision.boundsW = Grid.cellToPx(map.width);
-		collision.boundsH = Grid.cellToPx(map.height);
-		renderS   = new RenderSystem(worldLayer);
-		sprite    = new SpriteRenderSystem(worldLayer);
+		control = new DashControlSystem(game.input);
+		physics = new DashPhysicsSystem();
+		physics.boundsW = Grid.cellToPx(map.width);
+		physics.boundsH = Grid.cellToPx(map.height);
+		visual = new DashVisualSystem();
+		renderS = new RenderSystem(worldLayer);
+		sprite = new SpriteRenderSystem(worldLayer);
+		trail = new DashTrailSystem(worldLayer);
 	}
 
-	public inline function boundsW():Float return collision.boundsW;
-	public inline function boundsH():Float return collision.boundsH;
+	public inline function boundsW():Float return physics.boundsW;
+	public inline function boundsH():Float return physics.boundsH;
 
 	public function simulate(world:World, dt:Float, sdt:Float):Void {
-		input.update(world, dt);
-		collision.update(world, sdt);
+		control.update(world, sdt);
+		physics.update(world, sdt);
+		visual.update(world, dt);
 	}
 
 	public function renderAll(world:World, dt:Float):Void {
 		renderS.update(world, dt);
 		sprite.update(world, dt);
+		trail.update(world, dt);
 	}
 }

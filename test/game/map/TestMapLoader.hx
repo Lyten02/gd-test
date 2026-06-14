@@ -25,6 +25,16 @@ class TestMapLoader extends Test {
 		Assert.equals(2, m.entities[1].r);
 	}
 
+	function testParsesAutoplayCues() {
+		var json = '{ "width": 10, "height": 10, "autoplay": ['
+			+ '{ "x": 3.5, "hold": 1.25, "label": "hop" }], "entities": [] }';
+		var m = MapLoader.parse(json);
+		Assert.equals(1, m.autoplay.length);
+		Assert.floatEquals(3.5, m.autoplay[0].x, 0.0001);
+		Assert.floatEquals(1.25, m.autoplay[0].hold, 0.0001);
+		Assert.equals("hop", m.autoplay[0].label);
+	}
+
 	function testThrowsOnMissingEntities() {
 		Assert.raises(() -> MapLoader.parse('{ "width": 1, "height": 1 }'));
 	}

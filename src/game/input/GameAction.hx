@@ -9,6 +9,8 @@ enum abstract GameAction(Int) to Int {
 	var MoveRight;
 	var MoveUp;
 	var MoveDown;
+	var Jump;
+	var Restart;
 	var ToggleDebug;
 	var DebugSpeedUp;
 	var DebugSpeedDown;
