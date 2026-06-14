@@ -1,0 +1,20 @@
+{
+  "name": "main",
+  "main": "Main",
+  "sourcePaths": [
+    "src",
+    "modules/haxeheaps-starter/src",
+    "modules/localization-audio-subtitle/src",
+    "modules/localization-base/src",
+    "modules/localization-text/src"
+  ],
+  "defines": [
+    "antialiasing=4"
+  ],
+  "libs": [
+    "heaps:git",
+    "deepnightLibs"
+  ],
+  "autoDiscoverModules": false,
+  "reactBuildRuntime": false
+}
