@@ -1,8 +1,14 @@
 package game.map;
 
 /** JSON map format. Coordinates are grid cells (Grid.CELL = 32 px). */
+typedef AutoPlayCue = {
+	var x:Float;              // grid-space cue center x where jump is pressed
+	@:optional var hold:Float; // optional hold distance in grid cells
+	@:optional var label:String;
+}
+
 typedef MapEntity = {
-	var type:String;     // "player" | "circle" | "triangle" | "diamond" | "hexagon" | "rect"
+	var type:String;     // "player" | "block" | "spike" | "pad" | "orb" | "gravityPortal" | "goal"
 	var x:Int;           // grid col
 	var y:Int;           // grid row
 	@:optional var w:Int;
@@ -25,4 +31,5 @@ typedef MapData = {
 	var width:Int;               // grid cols (bounds)
 	var height:Int;              // grid rows
 	var entities:Array<MapEntity>;
+	@:optional var autoplay:Array<AutoPlayCue>; // bot route; never required for manual maps
 }

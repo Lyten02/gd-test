@@ -26,7 +26,7 @@
   },
   "dash": {
     "title": "NEON DASH",
-    "hint": "SPACE / CLICK — JUMP   R — RESTART",
+    "hint": "AUTOPLAY ON — WATCH THE RUN   SPACE / CLICK ALSO JUMPS   R — RESTART",
     "stats": "ATTEMPT {attempt}   {progress}%   {speed} PX/S",
     "status": {
       "running": "SYNC TO THE NEON BEAT",

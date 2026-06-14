@@ -1,50 +1,39 @@
 {
-	"width": 220,
+	"width": 180,
 	"height": 22,
+	"autoplay": [
+		{ "x": 10.9, "label": "first spike" },
+		{ "x": 22.9, "label": "second spike" },
+		{ "x": 50.0, "label": "orb setup" },
+		{ "x": 56.0, "label": "yellow orb" },
+		{ "x": 94.0, "label": "inverted saw" },
+		{ "x": 106.0, "label": "ceiling spike" },
+		{ "x": 158.0, "label": "final jump" }
+	],
 	"entities": [
-		{ "type": "decor", "x": 0, "y": 0, "w": 220, "h": 1, "color": 786431 },
-		{ "type": "block", "x": 0, "y": 19, "w": 220, "h": 3, "color": 1736703 },
-		{ "type": "block", "x": 130, "y": 2, "w": 35, "h": 1, "color": 7672319 },
+		{ "type": "decor", "x": 0, "y": 0, "w": 180, "h": 1, "color": 786431 },
+		{ "type": "block", "x": 0, "y": 19, "w": 86, "h": 3, "color": 1736703 },
+		{ "type": "block", "x": 82, "y": 0, "w": 46, "h": 3, "color": 7672319 },
+		{ "type": "block", "x": 122, "y": 19, "w": 58, "h": 3, "color": 1736703 },
 
 		{ "type": "player", "x": 3, "y": 18 },
 
 		{ "type": "spike", "x": 12, "y": 18, "color": 16723285 },
-		{ "type": "spike", "x": 18, "y": 18, "color": 16723285 },
-		{ "type": "spike", "x": 19, "y": 18, "color": 16723285 },
-		{ "type": "pad", "x": 25, "y": 18, "impulse": 900, "color": 16770669 },
-		{ "type": "orb", "x": 31, "y": 14, "r": 1, "impulse": 790, "color": 16755200 },
-		{ "type": "spike", "x": 37, "y": 18, "color": 16723285 },
-		{ "type": "spike", "x": 38, "y": 18, "color": 16723285 },
+		{ "type": "spike", "x": 24, "y": 18, "color": 16723285 },
+		{ "type": "pad", "x": 34, "y": 18, "impulse": 900, "color": 16770669 },
+		{ "type": "saw", "x": 43, "y": 19, "r": 1, "color": 16731476 },
+		{ "type": "orb", "x": 56, "y": 15, "r": 1, "impulse": 820, "color": 16755200 },
+		{ "type": "spike", "x": 60, "y": 18, "color": 16723285 },
 
-		{ "type": "block", "x": 45, "y": 17, "w": 4, "h": 2, "color": 2059263 },
-		{ "type": "spike", "x": 49, "y": 18, "color": 16723285 },
-		{ "type": "saw", "x": 57, "y": 16, "r": 1, "color": 16738740 },
-		{ "type": "block", "x": 64, "y": 16, "w": 5, "h": 1, "color": 2059263 },
-		{ "type": "orb", "x": 66, "y": 12, "r": 1, "impulse": 840, "color": 16755200 },
-		{ "type": "spike", "x": 72, "y": 18, "color": 16723285 },
-		{ "type": "spike", "x": 73, "y": 18, "color": 16723285 },
-		{ "type": "spike", "x": 74, "y": 18, "color": 16723285 },
+		{ "type": "gravityPortal", "x": 76, "y": 15, "w": 1, "h": 4, "dir": -1, "color": 13073919 },
+		{ "type": "saw", "x": 96, "y": 1, "r": 1, "color": 16731476 },
+		{ "type": "spike", "x": 109, "y": 3, "color": 16723285 },
+		{ "type": "gravityPortal", "x": 121, "y": 3, "w": 1, "h": 4, "dir": 1, "color": 52223 },
 
-		{ "type": "block", "x": 83, "y": 18, "w": 3, "h": 1, "color": 2059263 },
-		{ "type": "block", "x": 89, "y": 17, "w": 3, "h": 2, "color": 2059263 },
-		{ "type": "block", "x": 96, "y": 16, "w": 4, "h": 3, "color": 2059263 },
-		{ "type": "pad", "x": 104, "y": 18, "impulse": 960, "color": 16770669 },
-		{ "type": "orb", "x": 111, "y": 13, "r": 1, "impulse": 780, "color": 16755200 },
-		{ "type": "saw", "x": 118, "y": 16, "r": 1, "color": 16738740 },
-
-		{ "type": "gravityPortal", "x": 126, "y": 15, "w": 1, "h": 4, "dir": -1, "color": 13073919 },
-		{ "type": "saw", "x": 137, "y": 6, "r": 1, "color": 16738740 },
-		{ "type": "saw", "x": 147, "y": 6, "r": 1, "color": 16738740 },
-		{ "type": "orb", "x": 153, "y": 8, "r": 1, "impulse": 760, "color": 16755200 },
-		{ "type": "gravityPortal", "x": 160, "y": 3, "w": 1, "h": 4, "dir": 1, "color": 52223 },
-
-		{ "type": "spike", "x": 170, "y": 18, "color": 16723285 },
-		{ "type": "spike", "x": 171, "y": 18, "color": 16723285 },
-		{ "type": "block", "x": 178, "y": 17, "w": 4, "h": 2, "color": 2059263 },
-		{ "type": "orb", "x": 186, "y": 13, "r": 1, "impulse": 810, "color": 16755200 },
-		{ "type": "spike", "x": 193, "y": 18, "color": 16723285 },
-		{ "type": "saw", "x": 200, "y": 16, "r": 1, "color": 16738740 },
-		{ "type": "pad", "x": 207, "y": 18, "impulse": 880, "color": 16770669 },
-		{ "type": "goal", "x": 215, "y": 14, "w": 1, "h": 5, "color": 8191851 }
+		{ "type": "pad", "x": 137, "y": 18, "impulse": 950, "color": 16770669 },
+		{ "type": "spike", "x": 146, "y": 18, "color": 16723285 },
+		{ "type": "saw", "x": 156, "y": 19, "r": 1, "color": 16731476 },
+		{ "type": "spike", "x": 164, "y": 18, "color": 16723285 },
+		{ "type": "goal", "x": 174, "y": 14, "w": 1, "h": 5, "color": 8191851 }
 	]
 }

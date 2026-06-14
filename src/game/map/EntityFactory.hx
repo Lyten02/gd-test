@@ -4,6 +4,7 @@ import game.core.Grid;
 import game.ecs.Entity;
 import game.ecs.World;
 import game.map.MapData.MapEntity;
+import game.ecs.components.AutoPilot;
 import game.ecs.components.Collider;
 import game.ecs.components.DashRunner;
 import game.ecs.components.FinishLine;
@@ -29,6 +30,7 @@ class EntityFactory {
 
 	public static function spawnAll(world:World, map:MapData, attempt:Int = 1):Void {
 		for (e in map.entities) spawn(world, e, attempt);
+		attachAutoPilot(world, map);
 	}
 
 	public static function spawn(world:World, e:MapEntity, attempt:Int = 1):Entity {
@@ -132,6 +134,19 @@ class EntityFactory {
 		e.add(new Transform(x, y));
 		e.add(new ShapeRender(Rect(cw, ch), color));
 		return e;
+	}
+
+	static function attachAutoPilot(world:World, map:MapData):Void {
+		if (map.autoplay == null || map.autoplay.length == 0) return;
+		var xs = [];
+		var holds = [];
+		var labels = [];
+		for (cue in map.autoplay) {
+			xs.push(cue.x * Grid.CELL);
+			holds.push(cue.hold != null ? cue.hold * Grid.CELL : 0.0);
+			labels.push(cue.label != null ? cue.label : "");
+		}
+		for (e in world.query(DashRunner)) if (!e.has(AutoPilot)) e.add(new AutoPilot(xs, holds, labels));
 	}
 
 	static inline function tint(e:MapEntity, fallback:Int):Int {

@@ -11,7 +11,7 @@ import dn.heaps.input.Controller.PadButton;
  * Maps keyboard + gamepad inputs to strongly-typed `GameAction` values.
  * Each direction is a discrete action bound to multiple keys (arrows + WASD + dpad).
  */
-class InputBindings {
+class InputBindings implements IActionInput {
 	public var access(default, null):ControllerAccess<GameAction>;
 
 	var controller:Controller<GameAction>;
