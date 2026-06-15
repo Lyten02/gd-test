@@ -36,11 +36,6 @@ class ShapeFactory {
 		g.beginFill(color, 0.92);
 		g.drawRect(0, 0, w, h);
 		g.endFill();
-		g.lineStyle(1, 0xFFFFFF, 0.22);
-		g.moveTo(4, 4);
-		g.lineTo(w - 4, h - 4);
-		g.moveTo(w - 4, 4);
-		g.lineTo(4, h - 4);
 		return g;
 	}
 
